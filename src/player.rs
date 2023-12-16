@@ -8,16 +8,16 @@ pub struct PlayerPlugin;
 #[derive(Component)]
 pub struct Player;
 
-/// This plugin handles player related stuff like movement
-/// Player logic is only active during the State `GameState::Playing`
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Playing), spawn_player)
-            .add_systems(Update, move_player.run_if(in_state(GameState::Playing)));
+        app.add_systems(OnEnter(GameState::Game), spawn_player)
+            .add_systems(Update, move_player.run_if(in_state(GameState::Game)));
     }
 }
 
 fn spawn_player(mut commands: Commands, textures: Res<TextureAssets>) {
+    commands.spawn(Camera2dBundle::default());
+
     commands
         .spawn(SpriteBundle {
             texture: textures.bevy.clone(),
